@@ -26,17 +26,18 @@ class Fonetica
     [/CT|RT|ST|PT/, 'T'],
     [/\b[UW]/, 'V'],
     ['RM', 'SM'],
-    [/[MRS]+\b/, ''],
-    [/[AEIOUH]/, '']
+    [/[MRS]+\b/, '']
   ]
 
-  def foneticalize(word)
+  def foneticalize(word, remove_vowels = true)
     result = word.gsub(/ç/i, 's')
     result = I18n.transliterate(result).upcase
 
     replacements.each do |search, replace|
       result.gsub!(search, replace)
     end
+
+    result.gsub!(/[AEIOUH]/, '') if remove_vowels
 
     result.squeeze
   end
